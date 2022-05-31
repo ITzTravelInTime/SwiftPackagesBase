@@ -89,12 +89,12 @@ public extension FileManager{
     }
     
     ///Checks if the specified file exists
-    @inline(__always) func fileExists(atPath path: String) -> Bool {
+    @inline(__always) func fileExistsAndIsFile(atPath path: String) -> Bool {
         return itemExists(atPath: path, mustBeDirectory: false)
     }
     
     ///Checks if the specified file exists
-    @inline(__always) func fileExists(atURL url: URL) -> Bool {
+    @inline(__always) func fileExistsAndIsFile(atURL url: URL) -> Bool {
         return itemExists(atPath: url.path, mustBeDirectory: false)
     }
     

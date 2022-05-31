@@ -16,6 +16,18 @@ public protocol Copying{
     func copy() -> Self
 }
 
+///Protocol used to detect current values
+public protocol DetectProtocol{
+    static func current() -> Self?
+}
+
+public extension DetectProtocol where Self: SimulatableDetectableBase, Self == Self.T{
+    ///Returns the current status
+    static func current() -> Self?{
+        return self.status
+    }
+}
+
 
 
 
