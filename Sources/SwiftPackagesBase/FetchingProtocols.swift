@@ -11,16 +11,22 @@
 
 import Foundation
 
+///Generic protocol for fetching values
 public protocol FetchProtocol{
-    static func getString(_ valueName: String) -> String?
-    static func getInteger<T: FixedWidthInteger>(_ valueName: String) -> T?
-    static func getBool(_ valueName: String) -> Bool?
+    static func getString(_ : String) -> String?
+    static func getInteger<T: FixedWidthInteger>(_ : String) -> T?
+    static func getBool(_ : String) -> Bool?
 }
 
+///Adds data fetching to `FetchProtocol`
+public protocol FetchProtocolData: FetchProtocol{
+    static func getData(_ : String) -> Data?
+}
+
+///Automates the fetching of bool values from integers
 public protocol FetchProtocolBoolFromInt: FetchProtocol{}
 
 public extension FetchProtocolBoolFromInt{
-    
     ///Gets a `Bool` value
     static func getBool(_ valueName: String) -> Bool?{
         let res: Int? = Self.getInteger(valueName)
@@ -28,19 +34,31 @@ public extension FetchProtocolBoolFromInt{
     }
 }
 
+///Adds automated bool fetching to `FetchProtocolData`
+public protocol FetchProtocolDataBoolFromInt: FetchProtocolData{}
+
+///Generic protocol for fetching values
 public protocol FetchProtocolInstance{
     func getString(_ valueName: String) -> String?
     func getInteger<T: FixedWidthInteger>(_ valueName: String) -> T?
     func getBool(_ valueName: String) -> Bool?
 }
 
+///Adds data fetching to `FetchProtocolInstance`
+public protocol FetchProtocolDataInstance: FetchProtocolInstance{
+    func getData(_ : String) -> Data?
+}
+
+///Automates the fetching of bool values from integers
 public protocol FetchProtocolBoolFromIntInstance: FetchProtocolInstance{}
 
 public extension FetchProtocolBoolFromIntInstance{
-    
     ///Gets a `Bool` value
     func getBool(_ valueName: String) -> Bool?{
         let res: Int? = self.getInteger(valueName)
         return res?.boolValue()
     }
 }
+
+///Adds automated bool fetching to `FetchProtocolDataInstance`
+public protocol FetchProtocolDataBoolFromIntInstance: FetchProtocolDataInstance{}
