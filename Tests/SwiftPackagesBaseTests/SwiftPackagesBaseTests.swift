@@ -196,6 +196,31 @@ final class SwiftPackagesBaseTests: XCTestCase {
         print("Strings testing complete")
     }
     
+    func testSimulatableDetectable() throws{
+        class Foo: SimulatableDetectable{
+
+            ///if this property is nil the `actualStatus` property will be returned by the `status` propert, otherwise that will return the value of this property
+            static var simulatedStatus: Bool? = nil
+            
+            ///Returns the actual status
+            static func calculateStatus() -> Bool {
+                return false
+            }
+            
+            ///Initializer for compliance with the protocol
+            public required init(){ }
+            
+        }
+        
+        XCTAssertEqual(Foo.status, false) //returns false
+        XCTAssertEqual(Foo.actualStatus, false) //returns false
+
+        Foo.simulatedStatus = true
+
+        XCTAssertEqual(Foo.status, true) //returns true
+        XCTAssertEqual(Foo.actualStatus, false) //returns false
+    }
+    
     /*
     func testAll() throws {
         try testArrays()

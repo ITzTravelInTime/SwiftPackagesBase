@@ -8,6 +8,48 @@ A Swift Library containing useful code for Any Swift project.
 - The `FetchingProtocol` family of protcols which allows for a stanadard interface for value fetching.
 - Extensions to the basic data types for easy type conversions.
 
+Here are some examples for some features:
+
+**SimulatableDetectable**:
+
+- A set of protocols for objects that needs to have simulated debug states. 
+    
+    Example usage:
+
+```swift
+
+import SwiftPackagesBase
+
+class Foo: SimulatableDetectable{
+
+    ///if this property is nil the `actualStatus` property will be returned by the `status` propert, otherwise that will return the value of this property
+    static var simulatedStatus: Bool? = nil
+    
+    ///Returns the actual status
+    static func calculateStatus() -> Bool{
+        return false
+    }
+    
+    ///Initializer for compliance with the protocol
+    public required init(){  }
+    
+}
+
+print("Testing Foo status: ")
+
+print("Foo status: \(Foo.status)") //returns false
+print("Foo actual status: \(Foo.actualStatus)") //returns false
+
+print("Simulating a new status")
+Foo.simulatedStatus = true
+
+print("Foo status: \(Foo.status)") //returns true
+print("Foo actual status: \(Foo.actualStatus)") //returns false
+
+print("Foo testing is complete")
+
+```
+
 ## What apps/programs is this Library intended for?
 
 This library should be used by Swift apps/programs or libraries that needs the code provvided here.
