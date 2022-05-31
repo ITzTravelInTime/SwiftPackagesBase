@@ -28,7 +28,7 @@ Also having this as it's own library allows for code to be updated separately an
 
  - ITzTravelInTime (Pietro Caruso, project creator): piecaruso97@gmail.com
 
-## Copyright
+## Legal info
 
 A Swift Library containing useful utilities code for Any Swift project.
 Copyright (C) 2022 Pietro Caruso
