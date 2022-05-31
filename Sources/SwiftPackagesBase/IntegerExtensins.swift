@@ -12,27 +12,37 @@
 import Foundation
 
 public extension Representable where Self:FixedWidthInteger{
+    ///Returns self converted to the desired integer type
     @inline(__always) func intValue<T: FixedWidthInteger>() -> T?{
         return T(self)
     }
     
+    ///Returns self converted to the desired unsigned integer type
     @inline(__always) func uIntValue<T: UnsignedInteger & FixedWidthInteger>() -> T?{
         return T(self)
     }
     
+    ///Returns self converted to the desired floating point type
     @inline(__always) func floatingPointValue<T: BinaryFloatingPoint>() -> T? {
         return T(exactly: self)
     }
 }
 
-extension Int8: Representable{}
-extension Int16: Representable{}
-extension Int32: Representable{}
-extension Int64: Representable{}
-extension Int: Representable{}
+extension Copying where Self: FixedWidthInteger{
+    ///Returns a copy of self
+    @inline(__always) public func copy() -> Self{
+        return Self(self)
+    }
+}
 
-extension UInt8: Representable{}
-extension UInt16: Representable{}
-extension UInt32: Representable{}
-extension UInt64: Representable{}
-extension UInt: Representable{}
+extension Int8: Representable, Copying{}
+extension Int16: Representable, Copying{}
+extension Int32: Representable, Copying{}
+extension Int64: Representable, Copying{}
+extension Int: Representable, Copying{}
+
+extension UInt8: Representable, Copying{}
+extension UInt16: Representable, Copying{}
+extension UInt32: Representable, Copying{}
+extension UInt64: Representable, Copying{}
+extension UInt: Representable, Copying{}

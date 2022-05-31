@@ -143,6 +143,7 @@ public extension FloatRepresentable{
     }
 }
 
+#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS)
 public extension Float80Representable{
     ///Returns if the current instance can be converted to a `FlatingPoint`
     func isFloatingPoint() -> Bool{
@@ -150,6 +151,7 @@ public extension Float80Representable{
         return val != nil
     }
 }
+#endif
 
 public extension DoubleRepresentable{
     ///Returns if the current instance can be converted to a `FlatingPoint`
@@ -159,24 +161,26 @@ public extension DoubleRepresentable{
     }
 }
 
-///Standard protocol for objects that can be converted to a `Float` type
 public extension FloatRepresentable where Self: FloatingPointRepresentable{
+    ///Returns self converted to the `Float` type
     func floatValue() -> Float?{
         guard let val: Float = self.floatingPointValue() else { return nil }
         return val
     }
 }
 
-///Standard protocol for objects that can be converted to a `Float80` type
+#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS)
 public extension Float80Representable where Self: FloatingPointRepresentable{
+    ///Returns self converted to the `Float80` type
     func float80Value() -> Float80?{
         guard let val: Float80 = self.floatingPointValue() else { return nil }
         return val
     }
 }
+#endif
 
-///Standard protocol for objects that can be converted to a `Double` type
 public extension DoubleRepresentable where Self: FloatingPointRepresentable{
+    ///Returns self converted to the `Double` type
     func doubleValue() -> Double?{
         guard let val: Double = self.floatingPointValue() else { return nil }
         return val

@@ -31,3 +31,4 @@ public extension CBoolRepresentable where Self: Numeric{
         return self != 0
     }
 }
+

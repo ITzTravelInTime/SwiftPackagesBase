@@ -29,6 +29,7 @@ public extension FileManager{
 #endif
     }
     
+#if !os(Linux)
     ///Gets the size of the specified file
     func fileSize(atURL url: URL) -> Int?{
         do {
@@ -68,29 +69,33 @@ public extension FileManager{
         let url = URL(fileURLWithPath: path)
         return directorySize(atURL: url)
     }
+#endif
     
-    ///Checks if the specified directry exists
-    func directoryExists(atPath path: String) -> Bool {
+    
+    private func itemExists(atPath path: String, mustBeDirectory: Bool) -> Bool {
         var isDirectory = ObjCBool(true)
         let exists = self.fileExists(atPath: path, isDirectory: &isDirectory)
-        return exists && isDirectory.boolValue
+        return exists && (isDirectory.boolValue == mustBeDirectory)
     }
     
     ///Checks if the specified directry exists
-    func directoryExists(atURL url: URL) -> Bool {
-        return directoryExists(atPath: url.path)
+    @inline(__always) func directoryExists(atPath path: String) -> Bool {
+        return itemExists(atPath: path, mustBeDirectory: true)
+    }
+    
+    ///Checks if the specified directry exists
+    @inline(__always) func directoryExists(atURL url: URL) -> Bool {
+        return itemExists(atPath: url.path, mustBeDirectory: true)
     }
     
     ///Checks if the specified file exists
-    func fileExists(atPath path: String) -> Bool {
-        var isDirectory = ObjCBool(true)
-        let exists = self.fileExists(atPath: path, isDirectory: &isDirectory)
-        return exists && !isDirectory.boolValue
+    @inline(__always) func fileExists(atPath path: String) -> Bool {
+        return itemExists(atPath: path, mustBeDirectory: false)
     }
     
     ///Checks if the specified file exists
-    func fileExists(atURL url: URL) -> Bool {
-        return fileExists(atPath: url.path)
+    @inline(__always) func fileExists(atURL url: URL) -> Bool {
+        return itemExists(atPath: url.path, mustBeDirectory: false)
     }
     
     

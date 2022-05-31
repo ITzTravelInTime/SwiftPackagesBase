@@ -63,3 +63,16 @@ public extension Array where Element: Equatable{
         self = self.removingDuplicates()
     }
 }
+
+extension Array: Copying{
+    ///Creates a copy of the current instance
+    public func copy() -> Self {
+        var ret: Self = []
+        
+        for i in self{
+            ret.append(i)
+        }
+        
+        return ret
+    }
+}

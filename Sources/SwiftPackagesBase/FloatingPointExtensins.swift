@@ -11,21 +11,34 @@
 
 import Foundation
 
-public extension Representable where Self:BinaryFloatingPoint{
+public extension Representable where Self: BinaryFloatingPoint{
     
+    ///Returns self approximated comverted to the desired integer type
     @inline(__always) func intValue<T: FixedWidthInteger>() -> T?{
         return T(exactly: self.rounded())
     }
     
+    ///Returns self approximated comverted to the desired unsigned integer type
     @inline(__always) func uIntValue<T: UnsignedInteger & FixedWidthInteger>() -> T?{
         return T(exactly: self.rounded())
     }
     
+    ///Returns self comverted to the desired floating point type
     @inline(__always) func floatingPointValue<T: BinaryFloatingPoint>() -> T? {
         return T(self)
     }
 }
 
-extension Float: Representable{}
-extension Double: Representable{}
-extension Float80: Representable{}
+public extension Copying where Self: BinaryFloatingPoint{
+    ///Creates a cpy f the current instance
+    @inline(__always) func copy() -> Self{
+        return Self(self)
+    }
+}
+
+extension Float: Representable, Copying{}
+extension Double: Representable, Copying{}
+
+#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS)
+extension Float80: Representable, Copying{}
+#endif

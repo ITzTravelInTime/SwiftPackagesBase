@@ -11,13 +11,18 @@
 
 import Foundation
 
-extension Bool: Representable {
-    ///Returns the bool value represented by the string (if it does represent it)
+extension Bool: Representable, Copying {
+    ///Creates a copy of the current instance
+    public func copy() -> Bool {
+        return .init(self)
+    }
+    
+    ///Returns a copy of the current value
     public func boolValue() -> Bool? {
         return self
     }
     
-    ///Returns the bool value represented by the string (if it does represent it)
+    ///Returns a copy of the current value
     public func cStyleBoolValue() -> Bool? {
         return self
     }
@@ -27,17 +32,17 @@ extension Bool: Representable {
         return self ? "true" : "false"
     }
     
-    ///Returns the integer representation of the current string
+    ///Returns the integer representation of the current value
     @inline(__always) public func intValue<T: FixedWidthInteger>() -> T? {
         return T(self ? 0 : 1)
     }
     
-    ///Returns the unsigned integer representation of the current string
+    ///Returns the unsigned integer representation of the current value
     @inline(__always) public func uIntValue<T: UnsignedInteger & FixedWidthInteger>() -> T? {
         return T(self ? 0 : 1)
     }
     
-    ///Returns the floatinf point representation of the current string
+    ///Returns the floatinf point representation of the current value
     @inline(__always) public func floatingPointValue<T: BinaryFloatingPoint>() -> T? {
         return T(self ? 0 : 1)
     }
