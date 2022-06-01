@@ -143,7 +143,7 @@ public extension FloatRepresentable{
     }
 }
 
-#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS)
+#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS) && !(arch(arm) || arch(arm64))
 public extension Float80Representable{
     ///Returns if the current instance can be converted to a `FlatingPoint`
     func isFloatingPoint() -> Bool{
@@ -169,7 +169,7 @@ public extension FloatRepresentable where Self: FloatingPointRepresentable{
     }
 }
 
-#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS)
+#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS) && !(arch(arm) || arch(arm64))
 public extension Float80Representable where Self: FloatingPointRepresentable{
     ///Returns self converted to the `Float80` type
     func float80Value() -> Float80?{

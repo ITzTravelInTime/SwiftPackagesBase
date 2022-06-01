@@ -59,7 +59,7 @@ public protocol FloatRepresentable{
     func floatValue() -> Float?
 }
 
-#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS)
+#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS) && !(arch(arm) || arch(arm64))
 ///Standard protocol for objects that can be converted to a `Float80` type
 ///NOTE: Available just for macOS and linux, on other platforms it's just an empty protocol
 public protocol Float80Representable{
@@ -69,7 +69,7 @@ public protocol Float80Representable{
 #else
 
 ///Standard protocol for objects that can be converted to a `Float80` type.
-///NOTE: Available just for macOS and linux, on other platforms it's just an empty protocol
+///NOTE: Available just for macOS (intel only) and linux, on other platforms it's just an empty protocol
 public protocol Float80Representable {}
 
 #endif

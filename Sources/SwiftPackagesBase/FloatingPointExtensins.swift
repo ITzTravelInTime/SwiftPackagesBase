@@ -39,6 +39,6 @@ public extension Copying where Self: BinaryFloatingPoint{
 extension Float: Representable, Copying{}
 extension Double: Representable, Copying{}
 
-#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS)
+#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS) && !(arch(arm) || arch(arm64))
 extension Float80: Representable, Copying{}
 #endif
