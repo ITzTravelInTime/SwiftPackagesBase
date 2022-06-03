@@ -18,6 +18,7 @@ final class SwiftPackagesBaseTests: XCTestCase {
     
     //TODO: Add more exaustive tests
     
+    #if !os(Linux)
     func testBundle() throws{
         print("Bundle testing ...")
         
@@ -39,6 +40,7 @@ final class SwiftPackagesBaseTests: XCTestCase {
         
         print("Bundle testing done")
     }
+    #endif
     
     func testArrays() throws{
         print("Array testing ...")
