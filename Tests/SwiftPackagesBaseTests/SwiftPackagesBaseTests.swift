@@ -18,6 +18,28 @@ final class SwiftPackagesBaseTests: XCTestCase {
     
     //TODO: Add more exaustive tests
     
+    func testBundle() throws{
+        print("Bundle testing ...")
+        
+        XCTAssertNotNil(Bundle.main.version, "bundle version is nil")
+        
+        print("Bundle version: \(Bundle.main.version ?? "No bundle version detected.")")
+        
+        XCTAssertNotNil(Bundle.main.build, "bundle build is nil")
+        
+        print("Bundle build: \(Bundle.main.build ?? "No bundle version detected.")")
+        
+        XCTAssertNotNil(Bundle.main.name, "bundle name is nil")
+        
+        print("Bundle name: \(Bundle.main.name ?? "No bundle name detected.")")
+        
+        //XCTAssertNotNil(Bundle.main.copyright, "bundle copyright is nil")
+        
+        print("Bundle copyright: \(Bundle.main.copyright ?? "No bundle copyright detected.")")
+        
+        print("Bundle testing done")
+    }
+    
     func testArrays() throws{
         print("Array testing ...")
         
