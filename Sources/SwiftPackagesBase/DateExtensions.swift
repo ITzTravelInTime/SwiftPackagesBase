@@ -13,6 +13,7 @@ import Foundation
 
 public extension Date{
     ///Returns `String` values for Year, Month, Day, Hour, Minute, Second and Nanosecond for the current `Date` instance using the Georgian calendar
+    @available(iOS 8.0, *)
     func getTimeStrings() -> [Calendar.Component: String]{
         let now = self
         let calendar = Calendar.init(identifier: .gregorian)
@@ -37,6 +38,7 @@ public extension Date{
     }
     
     ///Returns a `String` containing the hour of the current `Date` instance using the Georgian calendar
+    @available(iOS 8.0, *)
     func getHourString(includingSeconds: Bool = false) -> String{
         let timeItems = getTimeStrings()
     
@@ -44,6 +46,7 @@ public extension Date{
     }
     
     ///Returns a string with the date of the current `Date` instance using the Georgian calendae
+    @available(iOS 8.0, *)
     func getDateString() -> String{
         let timeItems = getTimeStrings()
     
@@ -51,6 +54,7 @@ public extension Date{
     }
     
     ///Returns a `String` representing the date and hour of the current `Date` instance using the Georgian calendar
+    @available(iOS 8.0, *)
     func getTimeString(includingSeconds: Bool = false) -> String{
         return getDateString() + " " + getHourString(includingSeconds: includingSeconds)
     }
