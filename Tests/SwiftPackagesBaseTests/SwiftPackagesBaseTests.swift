@@ -86,6 +86,132 @@ final class SwiftPackagesBaseTests: XCTestCase {
         print("RepresentableString testing complete")
     }
     
+    func testRepresentableCBool() throws{
+        print("RepresentableBool testing ...")
+        
+        XCTAssertEqual("yes".cBoolValue(), true, "String RepresentablecBool testing failed 1")
+        
+        XCTAssertEqual("no".cBoolValue(), false, "String RepresentablecBool testing failed 2")
+        
+        XCTAssertEqual("true".cBoolValue(), true, "String RepresentablecBool testing failed 3")
+        
+        XCTAssertEqual("false".cBoolValue(), false, "String RepresentablecBool testing failed 4")
+        
+        XCTAssertEqual("Yes".cBoolValue(), true, "String RepresentablecBool testing failed 5")
+        
+        XCTAssertEqual("nO".cBoolValue(), false, "String RepresentablecBool testing failed 6")
+        
+        XCTAssertEqual("truE".cBoolValue(), true, "String RepresentablecBool testing failed 7")
+        
+        XCTAssertEqual("faLse".cBoolValue(), false, "String RepresentablecBool testing failed 8")
+        
+        XCTAssertEqual("0".cBoolValue(), false, "String RepresentablecBool testing failed 9")
+        
+        XCTAssertEqual("1".cBoolValue(), true, "String RepresentablecBool testing failed 10")
+        
+        XCTAssertEqual("69".cBoolValue(), true, "String RepresentablecBool testing failed 11")
+        
+        XCTAssertEqual("ye".cBoolValue(), nil, "String RepresentablecBool testing failed 12")
+        
+        XCTAssertEqual("falSe".isCBool(), true, "String RepresentablecBool testing failed 13")
+        
+        XCTAssertEqual("faLse".isCBool(), true, "String RepresentablecBool testing failed 14")
+        
+        XCTAssertEqual("0".isCBool(), true, "String RepresentablecBool testing failed 15")
+        
+        XCTAssertEqual("1".isCBool(), true, "String RepresentablecBool testing failed 16")
+        
+        XCTAssertEqual("69".isCBool(), true, "String RepresentablecBool testing failed 17")
+        
+        XCTAssertEqual("ye".isCBool(), false, "String RepresentablecBool testing failed 18")
+        
+        
+        //integer
+        XCTAssertEqual(0.isCBool(), true, "int RepresentablecBool testing failed 1")
+        
+        XCTAssertEqual(1.isCBool(), true, "int RepresentablecBool testing failed 2")
+        
+        XCTAssertEqual(69.isCBool(), true, "int RepresentablecBool testing failed 3")
+        
+        XCTAssertEqual(0.cBoolValue(), false, "int RepresentablecBool testing failed 4")
+        
+        XCTAssertEqual(1.cBoolValue(), true, "int RepresentablecBool testing failed 5")
+        
+        XCTAssertEqual(69.cBoolValue(), true, "int RepresentablecBool testing failed 6")
+        
+        //folating pint
+        
+        XCTAssertEqual(0.0.isCBool(), true, "float RepresentablecBool testing failed 1")
+        
+        XCTAssertEqual(1.0.isCBool(), true, "float RepresentablecBool testing failed 2")
+        
+        XCTAssertEqual(69.0.isCBool(), true, "float RepresentablecBool testing failed 3")
+        
+        XCTAssertEqual(0.0.cBoolValue(), false, "float RepresentablecBool testing failed 4")
+        
+        XCTAssertEqual(1.0.cBoolValue(), true, "float RepresentablecBool testing failed 5")
+        
+        XCTAssertEqual(69.0.cBoolValue(), true, "float RepresentablecBool testing failed 6")
+        
+        //double
+        
+        XCTAssertEqual(Double(0).isCBool(), true, "Double RepresentablecBool testing failed 1")
+        
+        XCTAssertEqual(Double(1).isCBool(), true, "Double RepresentablecBool testing failed 2")
+        
+        XCTAssertEqual(Double(69).isCBool(), true, "Double RepresentablecBool testing failed 3")
+        
+        XCTAssertEqual(Double(0).cBoolValue(), false, "Double RepresentablecBool testing failed 4")
+        
+        XCTAssertEqual(Double(1).cBoolValue(), true, "Double RepresentablecBool testing failed 5")
+        
+        XCTAssertEqual(Double(69).cBoolValue(), true, "Double RepresentablecBool testing failed 6")
+        
+        #if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS) && !(arch(arm) || arch(arm64) || arch(arm64_32))
+        //floa80
+        
+        XCTAssertEqual(Float80(0).isCBool(), true, "Float80 RepresentablecBool testing failed 1")
+        
+        XCTAssertEqual(Float80(1).isCBool(), true, "Float80 RepresentablecBool testing failed 2")
+        
+        XCTAssertEqual(Float80(69).isCBool(), true, "Float80 RepresentablecBool testing failed 3")
+        
+        XCTAssertEqual(Float80(0).cBoolValue(), false, "Float80 RepresentablecBool testing failed 4")
+        
+        XCTAssertEqual(Float80(1).cBoolValue(), true, "Float80 RepresentablecBool testing failed 5")
+        
+        XCTAssertEqual(Float80(69).cBoolValue(), true, "Float80 RepresentablecBool testing failed 6")
+        #endif
+        
+        #if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux)
+        //floa16
+        
+        if #available(watchOS 7.0, iOS 14, tvOS 14, macOS 11.0, *){
+        XCTAssertEqual(Float16(0).isCBool(), true, "Float16 RepresentablecBool testing failed 1")
+
+        XCTAssertEqual(Float16(1).isCBool(), true, "Float16 RepresentablecBool testing failed 2")
+
+        XCTAssertEqual(Float16(69).isCBool(), true, "Float16 RepresentablecBool testing failed 3")
+
+        XCTAssertEqual(Float16(0).cBoolValue(), false, "Float16 RepresentablecBool testing failed 4")
+
+        XCTAssertEqual(Float16(1).cBoolValue(), true, "Float16 RepresentablecBool testing failed 5")
+
+        XCTAssertEqual(Float16(69).cBoolValue(), true, "Float16 RepresentablecBool testing failed 6")
+        }
+        #endif
+        
+        XCTAssertEqual(true.isCBool(), true, "Bool RepresentablecBool testing failed 1")
+
+        XCTAssertEqual(false.isCBool(), true, "Bool RepresentablecBool testing failed 2")
+        
+        XCTAssertEqual(true.cBoolValue(), true, "Bool RepresentablecBool testing failed 1")
+
+        XCTAssertEqual(false.cBoolValue(), false, "Bool RepresentablecBool testing failed 2")
+        
+        print("RepresentableBool testing complete")
+    }
+    
     func testRepresentableBool() throws{
         print("RepresentableBool testing ...")
         
@@ -123,12 +249,96 @@ final class SwiftPackagesBaseTests: XCTestCase {
         
         XCTAssertEqual("69".isBool(), false, "String RepresentableBool testing failed 17")
         
-        XCTAssertEqual("ye".isBool(), false, "String RepresentableBool testing failed 12")
+        XCTAssertEqual("ye".isBool(), false, "String RepresentableBool testing failed 18")
         
         
+        //integer
+        XCTAssertEqual(0.isBool(), true, "int RepresentableBool testing failed 1")
+        
+        XCTAssertEqual(1.isBool(), true, "int RepresentableBool testing failed 2")
+        
+        XCTAssertEqual(69.isBool(), false, "int RepresentableBool testing failed 3")
+        
+        XCTAssertEqual(0.boolValue(), false, "int RepresentableBool testing failed 4")
+        
+        XCTAssertEqual(1.boolValue(), true, "int RepresentableBool testing failed 5")
+        
+        XCTAssertNil(69.boolValue(), "int RepresentableBool testing failed 6")
+        
+        //folating pint
+        
+        XCTAssertEqual(0.0.isBool(), true, "float RepresentableBool testing failed 1")
+        
+        XCTAssertEqual(1.0.isBool(), true, "float RepresentableBool testing failed 2")
+        
+        XCTAssertEqual(69.0.isBool(), false, "float RepresentableBool testing failed 3")
+        
+        XCTAssertEqual(0.0.boolValue(), false, "float RepresentableBool testing failed 4")
+        
+        XCTAssertEqual(1.0.boolValue(), true, "float RepresentableBool testing failed 5")
+        
+        XCTAssertNil(69.0.boolValue(), "float RepresentableBool testing failed 6")
+        
+        //double
+        
+        XCTAssertEqual(Double(0).isBool(), true, "Double RepresentableBool testing failed 1")
+        
+        XCTAssertEqual(Double(1).isBool(), true, "Double RepresentableBool testing failed 2")
+        
+        XCTAssertEqual(Double(69).isBool(), false, "Double RepresentableBool testing failed 3")
+        
+        XCTAssertEqual(Double(0).boolValue(), false, "Double RepresentableBool testing failed 4")
+        
+        XCTAssertEqual(Double(1).boolValue(), true, "Double RepresentableBool testing failed 5")
+        
+        XCTAssertNil(Double(69).boolValue(), "Double RepresentableBool testing failed 6")
+        
+        #if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS) && !(arch(arm) || arch(arm64) || arch(arm64_32))
+        //floa80
+        
+        XCTAssertEqual(Float80(0).isBool(), true, "Float80 RepresentableBool testing failed 1")
+        
+        XCTAssertEqual(Float80(1).isBool(), true, "Float80 RepresentableBool testing failed 2")
+        
+        XCTAssertEqual(Float80(69).isBool(), false, "Float80 RepresentableBool testing failed 3")
+        
+        XCTAssertEqual(Float80(0).boolValue(), false, "Float80 RepresentableBool testing failed 4")
+        
+        XCTAssertEqual(Float80(1).boolValue(), true, "Float80 RepresentableBool testing failed 5")
+        
+        XCTAssertNil(Float80(69).boolValue(), "Float80 RepresentableBool testing failed 6")
+        #endif
+        
+        #if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux)
+        //floa16
+        
+        if #available(watchOS 7.0, iOS 14, tvOS 14, macOS 11.0, *){
+        XCTAssertEqual(Float16(0).isBool(), true, "Float16 RepresentableBool testing failed 1")
+
+        XCTAssertEqual(Float16(1).isBool(), true, "Float16 RepresentableBool testing failed 2")
+
+        XCTAssertEqual(Float16(69).isBool(), false, "Float16 RepresentableBool testing failed 3")
+
+        XCTAssertEqual(Float16(0).boolValue(), false, "Float16 RepresentableBool testing failed 4")
+
+        XCTAssertEqual(Float16(1).boolValue(), true, "Float16 RepresentableBool testing failed 5")
+
+        XCTAssertNil(Float16(69).boolValue(), "Float16 RepresentableBool testing failed 6")
+        }
+        #endif
+        
+        XCTAssertEqual(true.isBool(), true, "Bool RepresentableBool testing failed 1")
+
+        XCTAssertEqual(false.isBool(), true, "Bool RepresentableBool testing failed 2")
+        
+        XCTAssertEqual(true.boolValue(), true, "Bool RepresentableBool testing failed 1")
+
+        XCTAssertEqual(false.boolValue(), false, "Bool RepresentableBool testing failed 2")
         
         print("RepresentableBool testing complete")
     }
+    
+    
     
     func testStrings() throws{
         print("Strings testing ...")

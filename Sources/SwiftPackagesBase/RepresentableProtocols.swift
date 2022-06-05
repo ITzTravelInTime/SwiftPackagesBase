@@ -59,7 +59,7 @@ public protocol FloatRepresentable{
     func floatValue() -> Float?
 }
 
-#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS) && !(arch(arm) || arch(arm64))
+#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS) && !(arch(arm) || arch(arm64) || arch(arm64_32))
 ///Standard protocol for objects that can be converted to a `Float80` type
 ///NOTE: Available just for macOS and linux, on other platforms it's just an empty protocol
 public protocol Float80Representable{
@@ -74,10 +74,22 @@ public protocol Float80Representable {}
 
 #endif
 
+#if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux)
+///Standard protocol for objects that can be converted to a `Float16` type
+///NOTE: Available just for arm platforms on recent apple os releases, on other platforms it's just an empty protocol
+public protocol Float16Representable{
+    @available(watchOS 7.0, iOS 14, tvOS 14, macOS 11.0, *) func float16Value() -> Float16?
+}
+#else
+///Standard protocol for objects that can be converted to a `Float16` type
+///NOTE: Available just for arm platforms on recent apple os releases, on other platforms it's just an empty protocol
+public protocol Float16Representable{}
+#endif
+
 ///Standard protocol for objects that can be converted to a `Double` type
 public protocol DoubleRepresentable{
     func doubleValue() -> Double?
 }
 
 ///Standard protocol for objects that can be converted to: `String`, `Bool`, C and Obj-c Bool types, `Integer`, `SignedInteger`, `UnsignedInteger`, `UInt64` and `Int64`
-public protocol Representable: BoolRepresentable, CBoolRepresentable, StringRepresentable, UnsignedIntegerRepresentable, UInt64Representable, SignedIntegerRepresentable, Int64Representable, FloatingPointRepresentable, FloatRepresentable, Float80Representable, DoubleRepresentable {}
+public protocol Representable: BoolRepresentable, CBoolRepresentable, StringRepresentable, UnsignedIntegerRepresentable, UInt64Representable, SignedIntegerRepresentable, Int64Representable, FloatingPointRepresentable, FloatRepresentable, Float80Representable, DoubleRepresentable, Float16Representable {}

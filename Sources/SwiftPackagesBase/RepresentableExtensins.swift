@@ -143,15 +143,26 @@ public extension FloatRepresentable{
     }
 }
 
-#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS) && !(arch(arm) || arch(arm64))
+#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS) && !(arch(arm) || arch(arm64) || arch(arm64_32))
 public extension Float80Representable{
-    ///Returns if the current instance can be converted to a `FlatingPoint`
-    func isFloatingPoint() -> Bool{
+    ///Returns if the current instance can be converted to a `Float80`
+    func isFloat80() -> Bool{
         let val: Float80? = self.float80Value()
         return val != nil
     }
 }
 #endif
+
+#if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux)
+@available(watchOS 7.0, iOS 14, tvOS 14, macOS 11.0, *) public extension Float16Representable{
+    ///Returns if the current instance can be converted to a `Float16`
+    func isFloat16() -> Bool{
+        let val: Float16? = self.float16Value()
+        return val != nil
+    }
+}
+#endif
+
 
 public extension DoubleRepresentable{
     ///Returns if the current instance can be converted to a `FlatingPoint`
@@ -169,11 +180,21 @@ public extension FloatRepresentable where Self: FloatingPointRepresentable{
     }
 }
 
-#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS) && !(arch(arm) || arch(arm64))
+#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS) && !(arch(arm) || arch(arm64) || arch(arm64_32))
 public extension Float80Representable where Self: FloatingPointRepresentable{
     ///Returns self converted to the `Float80` type
     func float80Value() -> Float80?{
         guard let val: Float80 = self.floatingPointValue() else { return nil }
+        return val
+    }
+}
+#endif
+
+#if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux)
+@available(watchOS 7.0, iOS 14, tvOS 14, macOS 11.0, *) public extension Float16Representable where Self: FloatingPointRepresentable{
+    ///Returns self converted to the `Float16` type
+    func float16Value() -> Float16?{
+        guard let val: Float16 = self.floatingPointValue() else { return nil }
         return val
     }
 }

@@ -11,39 +11,52 @@
 
 import Foundation
 
-extension Bool: Representable, Copying {
+extension Bool: Copying {
     ///Creates a copy of the current instance
     public func copy() -> Bool {
         return .init(self)
     }
-    
+}
+
+extension Bool: BoolRepresentable {
     ///Returns a copy of the current value
     public func boolValue() -> Bool? {
         return self
     }
-    
+}
+ 
+extension Bool: CBoolRepresentable {
     ///Returns a copy of the current value
     public func cStyleBoolValue() -> Bool? {
         return self
     }
-    
+}
+extension Bool: StringRepresentable {
     ///Returns a copy of the current string
     public func stringValue() -> String? {
         return self ? "true" : "false"
     }
+}
     
+extension Bool: IntegerRepresentable {
     ///Returns the integer representation of the current value
     @inline(__always) public func intValue<T: FixedWidthInteger>() -> T? {
         return T(self ? 0 : 1)
     }
-    
+}
+
+extension Bool: UnsignedIntegerRepresentable {
     ///Returns the unsigned integer representation of the current value
     @inline(__always) public func uIntValue<T: UnsignedInteger & FixedWidthInteger>() -> T? {
         return T(self ? 0 : 1)
     }
+}
     
+extension Bool: FloatingPointRepresentable {
     ///Returns the floatinf point representation of the current value
     @inline(__always) public func floatingPointValue<T: BinaryFloatingPoint>() -> T? {
         return T(self ? 0 : 1)
     }
 }
+
+extension Bool: Representable {}

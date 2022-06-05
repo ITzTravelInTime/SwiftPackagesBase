@@ -113,7 +113,7 @@ extension String: Copying{
     }
 }
 
-extension String: Representable {
+extension String: BoolRepresentable {
     ///Returns the bool value represented by the string (if it does represent it)
     public func boolValue() -> Bool? {
         
@@ -134,33 +134,47 @@ extension String: Representable {
         
     }
     
+}
+ 
+extension String: CBoolRepresentable {
     ///Returns the bool value represented by the string (if it does represent it)
     public func cStyleBoolValue() -> Bool? {
-        if let val: Int64 = self.intValue(){
+        if let val: Double = self.floatingPointValue(){
             return val.cStyleBoolValue()
         }
         
         return boolValue()
     }
     
+}
+
+extension String: StringRepresentable {
     ///Returns a copy of the current string
     public func stringValue() -> String? {
         return self.copy()
     }
-    
+}
+ 
+extension String: IntegerRepresentable {
     ///Returns the integer representation of the current string
     @inline(__always) public func intValue<T: FixedWidthInteger>() -> T? {
         return T(self)
     }
-    
+}
+
+extension String: UnsignedIntegerRepresentable {
     ///Returns the unsigned integer representation of the current string
     @inline(__always) public func uIntValue<T: UnsignedInteger & FixedWidthInteger>() -> T? {
         return T(self)
     }
-    
+}
+ 
+extension String: FloatingPointRepresentable {
     ///Returns the floatinf point representation of the current string
     @inline(__always) public func floatingPointValue<T: BinaryFloatingPoint>() -> T? {
         guard let val = Double(self) else { return nil } //cheating
         return T(val)
     }
 }
+
+extension String: Representable{}

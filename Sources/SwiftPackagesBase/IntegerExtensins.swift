@@ -11,17 +11,21 @@
 
 import Foundation
 
-public extension Representable where Self:FixedWidthInteger{
+public extension IntegerRepresentable where Self:FixedWidthInteger{
     ///Returns self converted to the desired integer type
     @inline(__always) func intValue<T: FixedWidthInteger>() -> T?{
         return T(self)
     }
-    
+}
+ 
+public extension UnsignedIntegerRepresentable where Self:FixedWidthInteger{
     ///Returns self converted to the desired unsigned integer type
     @inline(__always) func uIntValue<T: UnsignedInteger & FixedWidthInteger>() -> T?{
         return T(self)
     }
-    
+}
+
+public extension FloatingPointRepresentable where Self:FixedWidthInteger{
     ///Returns self converted to the desired floating point type
     @inline(__always) func floatingPointValue<T: BinaryFloatingPoint>() -> T? {
         return T(exactly: self)

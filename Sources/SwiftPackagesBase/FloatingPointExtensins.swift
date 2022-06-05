@@ -11,18 +11,23 @@
 
 import Foundation
 
-public extension Representable where Self: BinaryFloatingPoint{
+public extension IntegerRepresentable where Self: BinaryFloatingPoint{
     
     ///Returns self approximated comverted to the desired integer type
     @inline(__always) func intValue<T: FixedWidthInteger>() -> T?{
         return T(exactly: self.rounded())
     }
     
+}
+    
+public extension UnsignedIntegerRepresentable where Self: BinaryFloatingPoint{
     ///Returns self approximated comverted to the desired unsigned integer type
     @inline(__always) func uIntValue<T: UnsignedInteger & FixedWidthInteger>() -> T?{
         return T(exactly: self.rounded())
     }
-    
+}
+ 
+public extension FloatingPointRepresentable where Self: BinaryFloatingPoint{
     ///Returns self comverted to the desired floating point type
     @inline(__always) func floatingPointValue<T: BinaryFloatingPoint>() -> T? {
         return T(self)
@@ -37,13 +42,12 @@ public extension Copying where Self: BinaryFloatingPoint{
 }
 
 extension Float: Representable, Copying{}
+extension Double: Representable, Copying{}
 
 #if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux)
 @available(watchOS 7.0, iOS 14, tvOS 14, macOS 11.0, *) extension Float16: Representable, Copying{}
 #endif
 
-extension Double: Representable, Copying{}
-
-#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS) && !(arch(arm) || arch(arm64))
+#if !os(iOS) && !targetEnvironment(macCatalyst) && !os(tvOS) && !os(watchOS) && !(arch(arm) || arch(arm64) || arch(arm64_32))
 extension Float80: Representable, Copying{}
 #endif
