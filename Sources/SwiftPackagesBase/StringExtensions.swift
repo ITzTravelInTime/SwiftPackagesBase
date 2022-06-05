@@ -11,67 +11,63 @@
 
 import Foundation
 
-public extension String {
-    ///Gets the substring btained by the specified character indexes interval
-    subscript (bounds: CountableClosedRange<Int>) -> String {
-        let start = index(startIndex, offsetBy: bounds.lowerBound)
-        let end = index(startIndex, offsetBy: bounds.upperBound)
-        return String(self[start...end])
+public extension StringProtocol{
+    
+    private init(_ subsequence: Self.SubSequence) {
+        let str = String(subsequence).cString(using: .utf8) ?? [0]
+        self.init(cString: str)
     }
     
     ///Gets the substring btained by the specified character indexes interval
-    subscript (bounds: CountableRange<Int>) -> String {
+    subscript (bounds: CountableClosedRange<Int>) -> Self {
         let start = index(startIndex, offsetBy: bounds.lowerBound)
         let end = index(startIndex, offsetBy: bounds.upperBound)
-        return String(self[start..<end])
+        return Self(self[start...end])
+    }
+    
+    ///Gets the substring btained by the specified character indexes interval
+    subscript (bounds: CountableRange<Int>) -> Self {
+        let start = index(startIndex, offsetBy: bounds.lowerBound)
+        let end = index(startIndex, offsetBy: bounds.upperBound)
+        return Self(self[start..<end])
     }
     
     ///Replaces the first occurance of a particular substring inside the current string with the specified replacement string.and then returns it.
-    func replaceFirst(of pattern: String, with replacement: String) -> String {
+    func replaceFirst(of pattern: Self, with replacement: Self) -> Self {
         if let range = self.range(of: pattern){
-            return self.replacingCharacters(in: range, with: replacement)
+            return Self(self.replacingCharacters(in: range, with: replacement))!
         }
         
         return self
     }
     
     ///Replaces all the occurances of a particular substring inside the current string with the specified replacement string and then returns it.
-    func replaceAll(of pattern:String, with replacement:String) -> String{
+    func replaceAll(of pattern: Self, with replacement: Self) -> Self{
         do{
-            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            let regex = try NSRegularExpression(pattern: String(pattern), options: [])
             let range = NSRange(0..<self.utf16.count)
-            return regex.stringByReplacingMatches(in: self, options: [],
-                                                  range: range, withTemplate: replacement)
+            return Self(regex.stringByReplacingMatches(in: String(self), options: [],
+                                                  range: range, withTemplate: String(replacement)))!
         }catch{
-            NSLog("replaceAll error: \(error)")
+            print("replaceAll error: \(error)")
             return self
         }
     }
     
     ///Returns a copy of the current string without the specified prefix
-    func deletingPrefix(_ prefix: String) -> String {
+    func deletingPrefix(_ prefix: Self) -> Self {
         guard self.hasPrefix(prefix) else { return self }
-        return String(self.dropFirst(prefix.count))
+        return Self(self.dropFirst(prefix.count))
     }
     
     ///Returns a copy of the current string without the specified suffix
-    func deletingSuffix(_ suffix: String) -> String {
+    func deletingSuffix(_ suffix: Self) -> Self {
         guard self.hasSuffix(suffix) else { return self }
-        return String(self.dropLast(suffix.count))
-    }
-    
-    ///Deletes the specified prefix from the current string
-    @inline(__always) mutating func deletePrefix(_ prefix: String){
-         self = self.deletingPrefix(prefix)
-    }
-    
-    ///Deletes the specified suffix from the current string
-    @inline(__always) mutating func deleteSuffix(_ suffix: String){
-        self = self.deletingSuffix(suffix)
+        return Self(self.dropLast(suffix.count))
     }
     
     ///Returns if the current string contains the specified substring
-    @inline(__always) func contains(_ str: String) -> Bool{
+    @inline(__always) func contains(_ str: Self) -> Bool{
         return self.range(of: str) != nil
     }
     
@@ -89,31 +85,42 @@ public extension String {
     }
     
     ///Replaces the `$`(dollarsign) characters followed by a particular string key of the kerys dictionary with the specified associated value and then returns the obtained string
-    func parsed(usingKeys keys: [String: String]) -> String{
+    func parsed(usingKeys keys: [Self: Self]) -> Self{
         
-        var ret = self
+        var ret = String(self)
         
         for i in keys{
             ret = ret.replacingOccurrences(of: "$" + i.key, with: i.value)
         }
         
-        return ret
+        var val = ret.cString(using: .utf8) ?? [CChar(0)]
+        return Self(cString: &val)
     }
     
     ///Applies the parsed function to self
-    mutating func parse(usingKeys keys: [String: String]){
+    mutating func parse(usingKeys keys: [Self: Self]){
         self = self.parsed(usingKeys: keys)
     }
-}
 
-extension String: Copying{
-    ///Returns a copy of the current string
-    @inline(__always) public func copy() -> Self{
-        return String(self)
+    ///Deletes the specified prefix from the current string
+    @inline(__always) mutating func deletePrefix(_ prefix: Self){
+         self = self.deletingPrefix(prefix)
+    }
+    
+    ///Deletes the specified suffix from the current string
+    @inline(__always) mutating func deleteSuffix(_ suffix: Self){
+        self = self.deletingSuffix(suffix)
     }
 }
 
-extension String: BoolRepresentable {
+extension StringProtocol where Self:Copying{
+    ///Returns a copy of the current string
+    @inline(__always) public func copy() -> Self{
+        return Self(stringLiteral: String(self))
+    }
+}
+
+extension StringProtocol where Self:BoolRepresentable {
     ///Returns the bool value represented by the string (if it does represent it)
     public func boolValue() -> Bool? {
         
@@ -125,7 +132,7 @@ extension String: BoolRepresentable {
         case "true", "false":
             return value == "true"
         default:
-            if let val: UInt64 = self.uIntValue(){
+            if let val: UInt64 = .init(self){
                 return val.boolValue()
             }else{
                 return nil
@@ -136,40 +143,40 @@ extension String: BoolRepresentable {
     
 }
  
-extension String: CBoolRepresentable {
+extension StringProtocol where Self: CBoolRepresentable {
     ///Returns the bool value represented by the string (if it does represent it)
     public func cStyleBoolValue() -> Bool? {
-        if let val: Double = self.floatingPointValue(){
+        if let val: Double = .init(self){
             return val.cStyleBoolValue()
         }
         
-        return boolValue()
+        return String(self).boolValue()
     }
     
 }
 
-extension String: StringRepresentable {
+extension StringProtocol where Self: StringRepresentable {
     ///Returns a copy of the current string
     public func stringValue() -> String? {
-        return self.copy()
+        return String(self)
     }
 }
  
-extension String: IntegerRepresentable {
+extension StringProtocol where Self: IntegerRepresentable {
     ///Returns the integer representation of the current string
     @inline(__always) public func intValue<T: FixedWidthInteger>() -> T? {
         return T(self)
     }
 }
 
-extension String: UnsignedIntegerRepresentable {
+extension StringProtocol where Self: UnsignedIntegerRepresentable {
     ///Returns the unsigned integer representation of the current string
     @inline(__always) public func uIntValue<T: UnsignedInteger & FixedWidthInteger>() -> T? {
         return T(self)
     }
 }
  
-extension String: FloatingPointRepresentable {
+extension StringProtocol where Self: FloatingPointRepresentable {
     ///Returns the floatinf point representation of the current string
     @inline(__always) public func floatingPointValue<T: BinaryFloatingPoint>() -> T? {
         guard let val = Double(self) else { return nil } //cheating
@@ -177,4 +184,5 @@ extension String: FloatingPointRepresentable {
     }
 }
 
-extension String: Representable{}
+extension Substring: Representable, Copying{}
+extension String: Representable, Copying{}
