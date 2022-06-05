@@ -153,7 +153,7 @@ public extension Float80Representable{
 }
 #endif
 
-#if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux)
+#if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux) && (swift(>=5.4) || !os(macOS))
 @available(watchOS 7.0, iOS 14, tvOS 14, macOS 11.0, *) public extension Float16Representable{
     ///Returns if the current instance can be converted to a `Float16`
     func isFloat16() -> Bool{
@@ -190,7 +190,7 @@ public extension Float80Representable where Self: FloatingPointRepresentable{
 }
 #endif
 
-#if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux)
+#if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux) && (swift(>=5.4) || !os(macOS))
 @available(watchOS 7.0, iOS 14, tvOS 14, macOS 11.0, *) public extension Float16Representable where Self: FloatingPointRepresentable{
     ///Returns self converted to the `Float16` type
     func float16Value() -> Float16?{

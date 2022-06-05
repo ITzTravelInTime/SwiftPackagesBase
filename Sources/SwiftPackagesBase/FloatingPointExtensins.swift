@@ -44,7 +44,7 @@ public extension Copying where Self: BinaryFloatingPoint{
 extension Float: Representable, Copying{}
 extension Double: Representable, Copying{}
 
-#if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux)
+#if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux) && (swift(>=5.4) || !os(macOS))
 @available(watchOS 7.0, iOS 14, tvOS 14, macOS 11.0, *) extension Float16: Representable, Copying{}
 #endif
 

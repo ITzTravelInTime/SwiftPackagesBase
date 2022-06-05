@@ -183,7 +183,7 @@ final class SwiftPackagesBaseTests: XCTestCase {
         XCTAssertEqual(Float80(69).cBoolValue(), true, "Float80 RepresentablecBool testing failed 6")
         #endif
         
-        #if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux)
+        #if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux) && (swift(>=5.4) || !os(macOS))
         //floa16
         
         if #available(watchOS 7.0, iOS 14, tvOS 14, macOS 11.0, *){
@@ -309,7 +309,7 @@ final class SwiftPackagesBaseTests: XCTestCase {
         XCTAssertNil(Float80(69).boolValue(), "Float80 RepresentableBool testing failed 6")
         #endif
         
-        #if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux)
+        #if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux) && (swift(>=5.4) || !os(macOS))
         //floa16
         
         if #available(watchOS 7.0, iOS 14, tvOS 14, macOS 11.0, *){

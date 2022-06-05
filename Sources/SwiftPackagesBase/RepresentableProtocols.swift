@@ -74,7 +74,7 @@ public protocol Float80Representable {}
 
 #endif
 
-#if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux)
+#if (arch(arm) || arch(arm64) || arch(arm64_32)) && !os(Linux) && (swift(>=5.4) || !os(macOS))
 ///Standard protocol for objects that can be converted to a `Float16` type
 ///NOTE: Available just for arm platforms on recent apple os releases, on other platforms it's just an empty protocol
 public protocol Float16Representable{
