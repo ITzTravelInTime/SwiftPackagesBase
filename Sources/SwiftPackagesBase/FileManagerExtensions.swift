@@ -23,8 +23,8 @@ public extension FileManager{
         if let resourceValues = try? url.resourceValues(forKeys: [.volumeSupportsCaseSensitiveNamesKey]), let isCS = resourceValues.volumeSupportsCaseSensitiveNames{
             
             sensitive = isCS
-            
         }
+        
         return sensitive
 #endif
     }

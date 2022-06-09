@@ -46,8 +46,7 @@ public extension StringProtocol{
         do{
             let regex = try NSRegularExpression(pattern: String(pattern), options: [])
             let range = NSRange(0..<self.utf16.count)
-            return Self(regex.stringByReplacingMatches(in: String(self), options: [],
-                                                  range: range, withTemplate: String(replacement)))!
+            return Self(regex.stringByReplacingMatches(in: String(self), options: [],range: range, withTemplate: String(replacement)))!
         }catch{
             print("replaceAll error: \(error)")
             return self
