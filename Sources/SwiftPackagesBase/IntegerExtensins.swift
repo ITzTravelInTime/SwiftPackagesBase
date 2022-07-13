@@ -11,6 +11,50 @@
 
 import Foundation
 
+public extension FixedWidthInteger{
+    ///Assuming that the current string represents an ammount of byte, this returns an approximation of it in form of a string with a mesurement unit suffixed to it.
+    func sizeString() -> String{
+        var n = Double(self), nc = Double(self)
+        var div: Self = 1, divc: Self = 1
+        
+        while n > 1024 {
+            div *= 1024
+            n = Double(self) / Double(div)
+        }
+        
+        while nc > 1000 {
+            divc *= 1000
+            nc = Double(self) / Double(divc)
+        }
+        
+        var suffix = ""
+        
+        //log10(Double(div))
+        switch log10(Double(divc)) {
+        case 3:
+            suffix = "KB"
+        case 6:
+            suffix = "MB"
+        case 9:
+            suffix = "GB"
+        case 12:
+            suffix = "TB"
+        case 15:
+            suffix = "PB"
+        default:
+            suffix = "Byte"
+            n = Double(self)
+        }
+        
+        if floor(n) != n{
+            return "\(String(format: "%.2f", n)) \(suffix)"
+        }else{
+            return "\(UInt64(n)) \(suffix)"
+        }
+        
+    }
+}
+
 public extension IntegerRepresentable where Self:FixedWidthInteger{
     ///Returns self converted to the desired integer type
     @inline(__always) func intValue<T: FixedWidthInteger>() -> T?{
