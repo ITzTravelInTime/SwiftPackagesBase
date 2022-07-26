@@ -12,7 +12,7 @@
 import Foundation
 
 public extension FixedWidthInteger{
-    ///Assuming that the current string represents an ammount of byte, this returns an approximation of it in form of a string with a mesurement unit suffixed to it.
+    ///Assuming that the current value represents an amount of bytes, this returns an approximation to the maximum order of magnitude of it as a string with a measurement unit suffixed to it.
     func sizeString() -> String{
         var n = Double(self), nc = Double(self)
         var div: Self = 1, divc: Self = 1
@@ -52,6 +52,51 @@ public extension FixedWidthInteger{
             return "\(UInt64(n)) \(suffix)"
         }
         
+    }
+}
+
+public extension FixedWidthInteger{
+    ///Assuming that the current value represents a frequency in Hz, this returns an approximation to the maximum order of magnitude of it as a string with a measurement unit suffixed to it.
+    func frequencyString() -> String{
+        var n = Double(self)
+        var divc: Self = 1
+        
+        while n > 1000 {
+            divc *= 1000
+            n = Double(self) / Double(divc)
+        }
+        
+        var suffix = ""
+        
+        switch log10(Double(divc)) {
+        case 3:
+            suffix = "KHz"
+        case 6:
+            suffix = "MHz"
+        case 9:
+            suffix = "GHz"
+        case 12:
+            suffix = "THz"
+        case 15:
+            suffix = "PHz"
+        default:
+            suffix = "Hz"
+            n = Double(self)
+        }
+        
+        if floor(n) != n{
+            return "\(String(format: "%.4f", n)) \(suffix)"
+        }else{
+            return "\(UInt64(n)) \(suffix)"
+        }
+        
+    }
+}
+
+public extension FixedWidthInteger where Self: CVarArg{
+    ///Returns the current instance as an hexadecimal string
+    func hexString() -> String?{
+        return String(format:"%02X", self)
     }
 }
 
