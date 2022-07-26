@@ -17,4 +17,39 @@ import Foundation
         return rawValue
     }
 }
+
+#if os(macOS)
+import AppKit
+
+public extension NSColor{
+    ///Returns a random color
+    static func random() -> Self{
+        return .init(red: CGFloat(arc4random_uniform(UInt32(UInt8.max))), green: CGFloat(arc4random_uniform(UInt32(UInt8.max))), blue: CGFloat(arc4random_uniform(UInt32(UInt8.max))), alpha: 1)
+    }
+}
+
+public extension CGColor{
+    ///Returns a random color
+    static func random() -> CGColor{
+        return NSColor.random().cgColor
+    }
+}
+#else
+import UIKit
+
+public extension UIColor{
+    ///Returns a random color
+    static func random() -> Self{
+        return .init(red: CGFloat(arc4random_uniform(UInt32(UInt8.max))), green: CGFloat(arc4random_uniform(UInt32(UInt8.max))), blue: CGFloat(arc4random_uniform(UInt32(UInt8.max))), alpha: 1)
+    }
+}
+
+public extension CGColor{
+    ///Returns a random color
+    static func random() -> CGColor{
+        return UIColor.random().cgColor
+    }
+}
+#endif
+
 #endif

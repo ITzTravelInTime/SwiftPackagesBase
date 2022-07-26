@@ -93,6 +93,13 @@ public extension FixedWidthInteger{
     }
 }
 
+public extension FixedWidthInteger{
+    ///Returns is the current number has all the bits required by the specified bitmask
+    func matches<MaskType: FixedWidthInteger>(bitMask mask: MaskType) -> Bool{
+        return MaskType(self) & mask == mask
+    }
+}
+
 public extension FixedWidthInteger where Self: CVarArg{
     ///Returns the current instance as an hexadecimal string
     func hexString() -> String?{
