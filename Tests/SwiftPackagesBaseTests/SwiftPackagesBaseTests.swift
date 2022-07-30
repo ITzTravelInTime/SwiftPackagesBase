@@ -65,7 +65,11 @@ final class SwiftPackagesBaseTests: XCTestCase {
         
         XCTAssertEqual(69.stringValue(), "69", "Integer to string value conversion failure")
         
-        XCTAssertEqual(UInt64.generateBitMask(first: 0, last: UInt64(MemoryLayout<UInt64>.size) * 8 - 1), UInt64.max, "Error generating the correct bit mask for UInt64")
+        let mask = UInt64.generateBitMask(first: 0, last: UInt64(MemoryLayout<UInt64>.size) * 8 - 1)
+        
+        XCTAssertEqual(mask, UInt64.max, "Error generating the correct bit mask for UInt64")
+        
+        XCTAssert(UInt64.max.matches(bitMask: mask), "Bitmask matching failed")
         
         print("Integer testing complete")
     }
