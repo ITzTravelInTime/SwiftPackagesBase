@@ -93,6 +93,38 @@ public extension FixedWidthInteger{
     }
 }
 
+extension FixedWidthInteger{
+    ///Generates a bit mask for the given bit interval
+    static func generateBitMask(usingRange range: ClosedRange<Self>) -> Self{
+        assert(range.first ?? 0 <= range.last ?? 0, "The first bit has to come before the last one")
+        assert(range.first ?? 0 >= 0, "The last bit has to be part of the number")
+        assert(range.last ?? 0 <= MemoryLayout<Self>.size * 8, "The last bit has to be part of the number")
+        
+        var ret: Self = 0
+        
+        for i in range{
+            ret |= (0x1 << i )
+        }
+        
+        return ret
+    }
+    
+    ///Generates a bit mask for the given bit interval
+    static func generateBitMask(first: Self, last: Self) -> Self{
+        assert(first <= last, "The first bit has to come before the last one")
+        assert(first >= 0, "The last bit has to be part of the number")
+        assert(last <= MemoryLayout<Self>.size * 8, "The last bit has to be part of the number")
+        
+        var ret: Self = 0
+        
+        for i in first...last{
+            ret |= (0x1 << i )
+        }
+        
+        return ret
+    }
+}
+
 public extension FixedWidthInteger{
     ///Returns is the current number has all the bits required by the specified bitmask
     func matches<MaskType: FixedWidthInteger>(bitMask mask: MaskType) -> Bool{
