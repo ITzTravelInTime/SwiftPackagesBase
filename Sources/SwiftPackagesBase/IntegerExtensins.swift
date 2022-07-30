@@ -93,7 +93,7 @@ public extension FixedWidthInteger{
     }
 }
 
-extension FixedWidthInteger{
+public extension FixedWidthInteger{
     ///Generates a bit mask for the given bit interval
     static func generateBitMask(usingRange range: ClosedRange<Self>) -> Self{
         assert(range.first ?? 0 <= range.last ?? 0, "The first bit has to come before the last one")
