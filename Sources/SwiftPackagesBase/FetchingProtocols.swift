@@ -37,6 +37,14 @@ public extension FetchProtocolBoolFromInt{
 ///Adds automated bool fetching to `FetchProtocolData`
 public protocol FetchProtocolDataBoolFromInt: FetchProtocolData{}
 
+public extension FetchProtocolDataBoolFromInt{
+    ///Gets a `Bool` value
+    static func getBool(_ valueName: String) -> Bool?{
+        let res: Int? = Self.getInteger(valueName)
+        return res?.boolValue()
+    }
+}
+
 ///Generic protocol for fetching values
 public protocol FetchProtocolInstance{
     func getString(_ valueName: String) -> String?
@@ -62,3 +70,11 @@ public extension FetchProtocolBoolFromIntInstance{
 
 ///Adds automated bool fetching to `FetchProtocolDataInstance`
 public protocol FetchProtocolDataBoolFromIntInstance: FetchProtocolDataInstance{}
+
+public extension FetchProtocolDataBoolFromIntInstance{
+    ///Gets a `Bool` value
+    func getBool(_ valueName: String) -> Bool?{
+        let res: Int? = self.getInteger(valueName)
+        return res?.boolValue()
+    }
+}
