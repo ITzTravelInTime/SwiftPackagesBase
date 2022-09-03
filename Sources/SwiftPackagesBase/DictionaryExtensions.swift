@@ -13,8 +13,8 @@ import Foundation
 
 extension Dictionary: Copying{
     ///Creates a copy of the current instance
-    public func copy() -> Self {
-        var ret: Self = [:]
+    public func copy() -> [Key: Value] {
+        var ret = [Key: Value]()
         
         for i in self{
             ret[i.key] = i.value

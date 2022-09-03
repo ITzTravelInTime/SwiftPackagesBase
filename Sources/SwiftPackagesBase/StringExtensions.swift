@@ -131,7 +131,9 @@ extension StringProtocol where Self:BoolRepresentable {
         case "true", "false":
             return value == "true"
         default:
-            if let val: UInt64 = .init(self){
+            if let val: Int64 = Int64.init("\(self)"){
+                return val.boolValue()
+            }else if let val: Double = Double.init("\(self)"){
                 return val.boolValue()
             }else{
                 return nil
@@ -145,7 +147,12 @@ extension StringProtocol where Self:BoolRepresentable {
 extension StringProtocol where Self: CBoolRepresentable {
     ///Returns the bool value represented by the string (if it does represent it)
     public func cStyleBoolValue() -> Bool? {
-        if let val: Double = .init(self){
+        
+        if let val: Int64 = Int64.init("\(self)"){
+            return val.cStyleBoolValue()
+        }
+        
+        if let val: Double = Double.init("\(self)"){
             return val.cStyleBoolValue()
         }
         

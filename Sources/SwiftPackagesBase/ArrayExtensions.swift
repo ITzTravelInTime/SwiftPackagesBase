@@ -46,7 +46,7 @@ public extension Array where Element == String{
 public extension Array where Element: Equatable{
     ///Remves the duplicate elements from the array and returns it.
     ///The array items are ordered as they first appear.
-    func removingDuplicates() -> Self{
+    func removingDuplicates() -> [Element]{
         var ret = [Element]()
         
         for i in self{
@@ -66,8 +66,8 @@ public extension Array where Element: Equatable{
 
 extension Array: Copying{
     ///Creates a copy of the current instance
-    public func copy() -> Self {
-        var ret: Self = []
+    public func copy() -> [Element] {
+        var ret = [Element]()
         
         for i in self{
             ret.append(i)

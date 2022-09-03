@@ -9,7 +9,7 @@
  You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#if !os(watchOS) || swift(>=5.4)
+#if !os(watchOS) || swift(>=5.0)
 
 import XCTest
 @testable import SwiftPackagesBase
@@ -18,7 +18,7 @@ final class SwiftPackagesBaseTests: XCTestCase {
     
     //TODO: Add more exaustive tests
     
-    #if !os(Linux)
+    #if !os(Linux) && !os(Windows)
     func testBundle() throws{
         print("Bundle testing ...")
         
@@ -241,21 +241,29 @@ final class SwiftPackagesBaseTests: XCTestCase {
         
         XCTAssertEqual("1".boolValue(), true, "String RepresentableBool testing failed 10")
         
-        XCTAssertNil("69".boolValue(), "String RepresentableBool testing failed 11")
+        XCTAssertEqual("1.000000".boolValue(), true, "String RepresentableBool testing failed 11")
         
-        XCTAssertNil("ye".boolValue(), "String RepresentableBool testing failed 12")
+        XCTAssertNil("69".boolValue(), "String RepresentableBool testing failed 12")
         
-        XCTAssertEqual("false".isBool(), true, "String RepresentableBool testing failed 13")
+        XCTAssertNil("-69".boolValue(), "String RepresentableBool testing failed 13")
         
-        XCTAssertEqual("faLse".isBool(), true, "String RepresentableBool testing failed 14")
+        XCTAssertNil("-69.003".boolValue(), "String RepresentableBool testing failed 14")
         
-        XCTAssertEqual("0".isBool(), true, "String RepresentableBool testing failed 15")
+        XCTAssertNil("1.007".boolValue(), "String RepresentableBool testing failed 15")
         
-        XCTAssertEqual("1".isBool(), true, "String RepresentableBool testing failed 16")
+        XCTAssertNil("ye".boolValue(), "String RepresentableBool testing failed 16")
         
-        XCTAssertEqual("69".isBool(), false, "String RepresentableBool testing failed 17")
+        XCTAssertEqual("false".isBool(), true, "String RepresentableBool testing failed 17")
         
-        XCTAssertEqual("ye".isBool(), false, "String RepresentableBool testing failed 18")
+        XCTAssertEqual("faLse".isBool(), true, "String RepresentableBool testing failed 18")
+        
+        XCTAssertEqual("0".isBool(), true, "String RepresentableBool testing failed 19")
+        
+        XCTAssertEqual("1".isBool(), true, "String RepresentableBool testing failed 20")
+        
+        XCTAssertEqual("69".isBool(), false, "String RepresentableBool testing failed 21")
+        
+        XCTAssertEqual("ye".isBool(), false, "String RepresentableBool testing failed 22")
         
         
         //integer
@@ -470,4 +478,21 @@ final class SwiftPackagesBaseTests: XCTestCase {
      */
 }
 
+#endif
+
+#if os(Linux)
+extension SwiftPackagesBaseTests {
+    static var allTests : [(String, (_: SwiftPackagesBaseTests) -> () throws -> Void)] {
+        return [
+            ("testSimulatableDetectable", testSimulatableDetectable),
+            ("testStrings", testStrings),
+            ("testArrays", testArrays),
+            ("testIntegerTesting", testIntegerTesting),
+            ("testRepresentableString", testRepresentableString),
+            ("testRepresentableCBool", testRepresentableCBool),
+            ("testRepresentableBool", testRepresentableBool),
+            ("testStrings", testStrings)
+        ]
+    }
+}
 #endif
